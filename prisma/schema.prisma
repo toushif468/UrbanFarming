@@ -1,0 +1,108 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  VENDOR
+  CUSTOMER
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      String
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+
+  vendorProfile  VendorProfile?
+  communityPosts CommunityPost[]
+  orders         Order[]
+  plantTrackings PlantTracking[]
+}
+
+model VendorProfile {
+  id                  Int    @id @default(autoincrement())
+  userId              Int    @unique
+  user                User   @relation(fields: [userId], references: [id])
+  farmName            String
+  certificationStatus String @default("pending")
+  farmLocation        String
+
+  produces           Produce[]
+  rentalSpaces       RentalSpace[]
+  orders             Order[]
+  sustainabilityCert SustainabilityCert[]
+}
+
+model Produce {
+  id                  Int           @id @default(autoincrement())
+  vendorId            Int
+  vendor              VendorProfile @relation(fields: [vendorId], references: [id])
+  name                String
+  description         String
+  price               Float
+  category            String
+  certificationStatus String
+  availableQuantity   Int
+  orders              Order[]
+}
+
+model RentalSpace {
+  id           Int           @id @default(autoincrement())
+  vendorId     Int
+  vendor       VendorProfile @relation(fields: [vendorId], references: [id])
+  location     String
+  size         String
+  price        Float
+  availability Boolean       @default(true)
+}
+
+model Order {
+  id        Int           @id @default(autoincrement())
+  userId    Int
+  user      User          @relation(fields: [userId], references: [id])
+  produceId Int
+  produce   Produce       @relation(fields: [produceId], references: [id])
+  vendorId  Int
+  vendor    VendorProfile @relation(fields: [vendorId], references: [id])
+  status    String        @default("pending")
+  orderDate DateTime      @default(now())
+}
+
+model CommunityPost {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  postContent String
+  postDate    DateTime @default(now())
+}
+
+model SustainabilityCert {
+  id                Int           @id @default(autoincrement())
+  vendorId          Int
+  vendor            VendorProfile @relation(fields: [vendorId], references: [id])
+  certifyingAgency  String
+  certificationDate DateTime
+}
+
+model PlantTracking {
+  id           Int       @id @default(autoincrement())
+  userId       Int
+  user         User      @relation(fields: [userId], references: [id])
+  plantName    String
+  growthStage  String    @default("SEEDLING")
+  healthStatus String    @default("HEALTHY")
+  notes        String?
+  harvestDate  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
