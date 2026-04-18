@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt'
 const prisma = new PrismaClient()
 
 async function main() {
-    console.log('🌱 Seeding started...')
+    console.log(' Seeding started...')
 
 
     await prisma.sustainabilityCert.deleteMany()
@@ -16,7 +16,7 @@ async function main() {
     await prisma.vendorProfile.deleteMany()
     await prisma.user.deleteMany()
 
-    console.log('🗑️  Cleaned existing data')
+    console.log(' Cleaned existing data')
 
     const adminPassword = await bcrypt.hash('admin123', 10)
     const admin = await prisma.user.create({
@@ -28,7 +28,7 @@ async function main() {
             status: 'active'
         }
     })
-    console.log('✅ Admin created:', admin.email)
+    console.log('Admin created:', admin.email)
 
     const vendorUsers = []
     for (let i = 0; i < 10; i++) {
@@ -44,7 +44,7 @@ async function main() {
         })
         vendorUsers.push(user)
     }
-    console.log('✅ 10 Vendor users created')
+    console.log('10 Vendor users created')
 
     const vendorProfiles = []
     for (const user of vendorUsers) {
@@ -60,7 +60,7 @@ async function main() {
         })
         vendorProfiles.push(profile)
     }
-    console.log('✅ 10 Vendor profiles created')
+    console.log(' 10 Vendor profiles created')
 
     const categories = ['Vegetables', 'Fruits', 'Herbs', 'Seeds', 'Tools']
     const produceNames = [
@@ -86,7 +86,7 @@ async function main() {
             }
         })
     }
-    console.log('✅ 100 Produce items created')
+    console.log(' 100 Produce items created')
 
     const customers = []
     for (let i = 0; i < 5; i++) {
@@ -102,7 +102,7 @@ async function main() {
         })
         customers.push(user)
     }
-    console.log('✅ 5 Customer users created')
+    console.log(' 5 Customer users created')
 
     const allUsers = [...vendorUsers, ...customers]
     for (let i = 0; i < 20; i++) {
@@ -114,7 +114,7 @@ async function main() {
             }
         })
     }
-    console.log('✅ 20 Community posts created')
+    console.log(' 20 Community posts created')
 
     for (const vendor of vendorProfiles) {
         await prisma.rentalSpace.create({
@@ -129,7 +129,7 @@ async function main() {
             }
         })
     }
-    console.log('✅ Rental spaces created')
+    console.log(' Rental spaces created')
 
     for (const vendor of vendorProfiles) {
         await prisma.sustainabilityCert.create({
@@ -145,9 +145,9 @@ async function main() {
             }
         })
     }
-    console.log('✅ Sustainability certs created')
+    console.log(' Sustainability certs created')
 
-    console.log('\n🎉 Seeding completed successfully!')
+    console.log('\n Seeding completed successfully!')
     console.log('─────────────────────────────────')
     console.log('Admin login:    admin@urbanfarming.com / admin123')
     console.log('Vendor login:   (check DB for emails) / vendor123')
@@ -156,7 +156,7 @@ async function main() {
 
 main()
     .catch((e) => {
-        console.error('❌ Seeding failed:', e)
+        console.error(' Seeding failed:', e)
         process.exit(1)
     })
     .finally(async () => {
