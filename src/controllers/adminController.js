@@ -1,7 +1,6 @@
 import prisma from '../config/db.js'
 import { successResponse, errorResponse } from '../utils/apiResponse.js'
 
-// Get All Users
 export const getAllUsers = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1
@@ -39,7 +38,7 @@ export const getAllUsers = async (req, res) => {
     }
 }
 
-// Get Single User
+
 export const getUserById = async (req, res) => {
     try {
         const user = await prisma.user.findUnique({
@@ -63,7 +62,7 @@ export const getUserById = async (req, res) => {
     }
 }
 
-// Ban / Suspend User
+
 export const updateUserStatus = async (req, res) => {
     try {
         const { status } = req.body
@@ -94,7 +93,7 @@ export const updateUserStatus = async (req, res) => {
     }
 }
 
-// Delete User
+
 export const deleteUser = async (req, res) => {
     try {
         const user = await prisma.user.findUnique({
@@ -114,7 +113,7 @@ export const deleteUser = async (req, res) => {
     }
 }
 
-// Get Platform Stats
+
 export const getPlatformStats = async (req, res) => {
     try {
         const [
@@ -159,7 +158,7 @@ export const getPlatformStats = async (req, res) => {
     }
 }
 
-// Approve Vendor (Admin only)
+
 export const approveVendor = async (req, res) => {
     try {
         const vendor = await prisma.vendorProfile.findUnique({
@@ -178,7 +177,7 @@ export const approveVendor = async (req, res) => {
     }
 }
 
-// Get All Orders (Admin overview)
+
 export const getAllOrders = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1

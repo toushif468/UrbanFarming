@@ -35,7 +35,6 @@ const options = {
             { name: 'Certifications', description: 'Sustainability certifications' }
         ],
         paths: {
-            // ─── AUTH ───────────────────────────────────────────
             '/api/auth/register': {
                 post: {
                     tags: ['Auth'],
@@ -91,7 +90,6 @@ const options = {
                 }
             },
 
-            // ─── VENDORS ────────────────────────────────────────
             '/api/vendors/profile': {
                 post: {
                     tags: ['Vendors'],
@@ -147,7 +145,6 @@ const options = {
                 }
             },
 
-            // ─── PRODUCE ────────────────────────────────────────
             '/api/produce': {
                 get: {
                     tags: ['Produce'],
@@ -217,7 +214,6 @@ const options = {
                 }
             },
 
-            // ─── ORDERS ─────────────────────────────────────────
             '/api/orders': {
                 post: {
                     tags: ['Orders'],
@@ -283,7 +279,6 @@ const options = {
                 }
             },
 
-            // ─── FORUM ──────────────────────────────────────────
             '/api/forum': {
                 get: {
                     tags: ['Forum'],
@@ -326,7 +321,7 @@ const options = {
                 }
             },
 
-            // ─── RENTALS ────────────────────────────────────────
+            
             '/api/rentals': {
                 get: {
                     tags: ['Rentals'],
@@ -393,7 +388,6 @@ const options = {
                 }
             },
 
-            // ─── CERTIFICATIONS ─────────────────────────────────
             '/api/certs': {
                 post: {
                     tags: ['Certifications'],

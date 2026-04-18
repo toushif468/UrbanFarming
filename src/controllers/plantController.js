@@ -1,7 +1,7 @@
 import prisma from '../config/db.js'
 import { successResponse, errorResponse } from '../utils/apiResponse.js'
 
-// Add Plant (Customer only)
+
 export const addPlant = async (req, res) => {
     try {
         const { plantName, growthStage, healthStatus, notes, harvestDate } = req.body
@@ -25,7 +25,7 @@ export const addPlant = async (req, res) => {
     }
 }
 
-// Get My Plants (Customer only)
+
 export const getMyPlants = async (req, res) => {
     try {
         const plants = await prisma.plantTracking.findMany({
@@ -39,7 +39,7 @@ export const getMyPlants = async (req, res) => {
     }
 }
 
-// Get Single Plant
+
 export const getPlantById = async (req, res) => {
     try {
         const plant = await prisma.plantTracking.findUnique({
@@ -57,7 +57,7 @@ export const getPlantById = async (req, res) => {
     }
 }
 
-// Update Plant (Customer only)
+
 export const updatePlant = async (req, res) => {
     try {
         const { plantName, growthStage, healthStatus, notes, harvestDate } = req.body
@@ -97,7 +97,7 @@ export const updatePlant = async (req, res) => {
     }
 }
 
-// Delete Plant (Customer only)
+
 export const deletePlant = async (req, res) => {
     try {
         const plant = await prisma.plantTracking.findUnique({
@@ -118,7 +118,7 @@ export const deletePlant = async (req, res) => {
     }
 }
 
-// Get All Plants (Admin only)
+
 export const getAllPlants = async (req, res) => {
     try {
         const plants = await prisma.plantTracking.findMany({

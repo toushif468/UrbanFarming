@@ -11,11 +11,9 @@ import { authorizeRole } from '../middlewares/authMiddleware.js'
 
 const router = express.Router()
 
-// Public routes
 router.get('/', getAllProduce)
 router.get('/:id', getProduceById)
 
-// Vendor only routes
 router.post('/', verifyToken, authorizeRole('VENDOR'), createProduce)
 router.put('/:id', verifyToken, authorizeRole('VENDOR'), updateProduce)
 router.delete('/:id', verifyToken, authorizeRole('VENDOR'), deleteProduce)

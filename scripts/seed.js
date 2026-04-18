@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 async function main() {
     console.log('🌱 Seeding started...')
 
-    // Clean existing data
+
     await prisma.sustainabilityCert.deleteMany()
     await prisma.communityPost.deleteMany()
     await prisma.order.deleteMany()
@@ -18,7 +18,6 @@ async function main() {
 
     console.log('🗑️  Cleaned existing data')
 
-    // ─── 1. Create Admin ───────────────────────────────────────────
     const adminPassword = await bcrypt.hash('admin123', 10)
     const admin = await prisma.user.create({
         data: {
@@ -31,7 +30,6 @@ async function main() {
     })
     console.log('✅ Admin created:', admin.email)
 
-    // ─── 2. Create 10 Vendors ──────────────────────────────────────
     const vendorUsers = []
     for (let i = 0; i < 10; i++) {
         const password = await bcrypt.hash('vendor123', 10)
@@ -48,7 +46,6 @@ async function main() {
     }
     console.log('✅ 10 Vendor users created')
 
-    // ─── 3. Create Vendor Profiles ─────────────────────────────────
     const vendorProfiles = []
     for (const user of vendorUsers) {
         const profile = await prisma.vendorProfile.create({
@@ -65,7 +62,6 @@ async function main() {
     }
     console.log('✅ 10 Vendor profiles created')
 
-    // ─── 4. Create 100 Produce items ──────────────────────────────
     const categories = ['Vegetables', 'Fruits', 'Herbs', 'Seeds', 'Tools']
     const produceNames = [
         'Tomatoes', 'Spinach', 'Carrots', 'Lettuce', 'Peppers',
@@ -92,7 +88,6 @@ async function main() {
     }
     console.log('✅ 100 Produce items created')
 
-    // ─── 5. Create 5 Customers ────────────────────────────────────
     const customers = []
     for (let i = 0; i < 5; i++) {
         const password = await bcrypt.hash('customer123', 10)
@@ -109,7 +104,6 @@ async function main() {
     }
     console.log('✅ 5 Customer users created')
 
-    // ─── 6. Create Community Posts ────────────────────────────────
     const allUsers = [...vendorUsers, ...customers]
     for (let i = 0; i < 20; i++) {
         const user = faker.helpers.arrayElement(allUsers)
@@ -122,7 +116,6 @@ async function main() {
     }
     console.log('✅ 20 Community posts created')
 
-    // ─── 7. Create Rental Spaces ──────────────────────────────────
     for (const vendor of vendorProfiles) {
         await prisma.rentalSpace.create({
             data: {
@@ -138,7 +131,6 @@ async function main() {
     }
     console.log('✅ Rental spaces created')
 
-    // ─── 8. Create Sustainability Certs ───────────────────────────
     for (const vendor of vendorProfiles) {
         await prisma.sustainabilityCert.create({
             data: {

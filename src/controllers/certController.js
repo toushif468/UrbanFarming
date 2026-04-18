@@ -1,7 +1,7 @@
 import prisma from '../config/db.js'
 import { successResponse, errorResponse } from '../utils/apiResponse.js'
 
-// Submit Certification (Vendor only)
+
 export const submitCertification = async (req, res) => {
     try {
         const { certifyingAgency, certificationDate } = req.body
@@ -25,7 +25,7 @@ export const submitCertification = async (req, res) => {
     }
 }
 
-// Get My Certifications (Vendor only)
+
 export const getMyCertifications = async (req, res) => {
     try {
         const vendor = await prisma.vendorProfile.findUnique({
@@ -44,7 +44,7 @@ export const getMyCertifications = async (req, res) => {
     }
 }
 
-// Get All Certifications (Admin only)
+
 export const getAllCertifications = async (req, res) => {
     try {
         const certs = await prisma.sustainabilityCert.findMany({
@@ -67,7 +67,7 @@ export const getAllCertifications = async (req, res) => {
     }
 }
 
-// Approve Certification — updates vendor profile status (Admin only)
+
 export const approveCertification = async (req, res) => {
     try {
         const cert = await prisma.sustainabilityCert.findUnique({
@@ -87,7 +87,7 @@ export const approveCertification = async (req, res) => {
     }
 }
 
-// Reject Certification (Admin only)
+
 export const rejectCertification = async (req, res) => {
     try {
         const cert = await prisma.sustainabilityCert.findUnique({

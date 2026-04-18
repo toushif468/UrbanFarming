@@ -1,7 +1,7 @@
 import prisma from '../config/db.js'
 import { successResponse, errorResponse } from '../utils/apiResponse.js'
 
-// Create Post (Any logged in user)
+
 export const createPost = async (req, res) => {
     try {
         const { postContent } = req.body
@@ -21,7 +21,7 @@ export const createPost = async (req, res) => {
     }
 }
 
-// Get All Posts (Public) with pagination
+
 export const getAllPosts = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1
@@ -54,7 +54,7 @@ export const getAllPosts = async (req, res) => {
     }
 }
 
-// Delete Post (Admin or post owner)
+
 export const deletePost = async (req, res) => {
     try {
         const post = await prisma.communityPost.findUnique({

@@ -1,12 +1,12 @@
 import prisma from '../config/db.js'
 import { successResponse, errorResponse } from '../utils/apiResponse.js'
 
-// Create Produce (Vendor only)
+
 export const createProduce = async (req, res) => {
     try {
         const { name, description, price, category, availableQuantity } = req.body
 
-        // Get vendor profile from logged in user
+
         const vendor = await prisma.vendorProfile.findUnique({
             where: { userId: req.user.id }
         })
@@ -30,7 +30,7 @@ export const createProduce = async (req, res) => {
     }
 }
 
-// Get All Produce (Public) with pagination
+
 export const getAllProduce = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1
@@ -64,7 +64,7 @@ export const getAllProduce = async (req, res) => {
     }
 }
 
-// Get Single Produce
+
 export const getProduceById = async (req, res) => {
     try {
         const produce = await prisma.produce.findUnique({
@@ -78,7 +78,7 @@ export const getProduceById = async (req, res) => {
     }
 }
 
-// Update Produce (Vendor only)
+
 export const updateProduce = async (req, res) => {
     try {
         const { name, description, price, category, availableQuantity } = req.body
@@ -107,7 +107,7 @@ export const updateProduce = async (req, res) => {
     }
 }
 
-// Delete Produce (Vendor only)
+
 export const deleteProduce = async (req, res) => {
     try {
         const vendor = await prisma.vendorProfile.findUnique({

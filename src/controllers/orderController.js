@@ -1,13 +1,11 @@
 import prisma from '../config/db.js'
 import { successResponse, errorResponse } from '../utils/apiResponse.js'
 
-// Place Order (Customer only)
 export const placeOrder = async (req, res) => {
     try {
         const { produceId } = req.body
         const userId = req.user.id
 
-        // Check produce exists
         const produce = await prisma.produce.findUnique({
             where: { id: parseInt(produceId) }
         })
@@ -40,7 +38,6 @@ export const placeOrder = async (req, res) => {
     }
 }
 
-// Get My Orders (Customer) with pagination
 export const getMyOrders = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1
@@ -74,7 +71,6 @@ export const getMyOrders = async (req, res) => {
     }
 }
 
-// Get Vendor Orders (Vendor only)
 export const getVendorOrders = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1
@@ -114,7 +110,6 @@ export const getVendorOrders = async (req, res) => {
     }
 }
 
-// Update Order Status (Vendor only)
 export const updateOrderStatus = async (req, res) => {
     try {
         const { status } = req.body
@@ -148,7 +143,7 @@ export const updateOrderStatus = async (req, res) => {
     }
 }
 
-// Get All Orders (Admin only)
+
 export const getAllOrders = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1

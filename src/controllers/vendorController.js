@@ -1,7 +1,7 @@
 import prisma from '../config/db.js'
 import { successResponse, errorResponse } from '../utils/apiResponse.js'
 
-// Create Vendor Profile (Vendor only)
+
 export const createVendorProfile = async (req, res) => {
     try {
         const { farmName, farmLocation } = req.body
@@ -22,7 +22,7 @@ export const createVendorProfile = async (req, res) => {
     }
 }
 
-// Get My Vendor Profile
+
 export const getMyVendorProfile = async (req, res) => {
     try {
         const profile = await prisma.vendorProfile.findUnique({
@@ -38,7 +38,7 @@ export const getMyVendorProfile = async (req, res) => {
     }
 }
 
-// Get All Vendors (Admin only)
+
 export const getAllVendors = async (req, res) => {
     try {
         const vendors = await prisma.vendorProfile.findMany({
@@ -51,7 +51,7 @@ export const getAllVendors = async (req, res) => {
     }
 }
 
-// Approve Vendor (Admin only)
+
 export const approveVendor = async (req, res) => {
     try {
         const { id } = req.params

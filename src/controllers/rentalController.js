@@ -1,7 +1,7 @@
 import prisma from '../config/db.js'
 import { successResponse, errorResponse } from '../utils/apiResponse.js'
 
-// Create Rental Space (Vendor only)
+
 export const createRentalSpace = async (req, res) => {
     try {
         const { location, size, price } = req.body
@@ -27,7 +27,7 @@ export const createRentalSpace = async (req, res) => {
     }
 }
 
-// Get All Rental Spaces (Public) with location search
+
 export const getAllRentalSpaces = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1
@@ -63,7 +63,7 @@ export const getAllRentalSpaces = async (req, res) => {
     }
 }
 
-// Update Availability (Vendor only)
+
 export const updateRentalAvailability = async (req, res) => {
     try {
         const { availability } = req.body
@@ -92,7 +92,7 @@ export const updateRentalAvailability = async (req, res) => {
     }
 }
 
-// Delete Rental Space (Vendor only)
+
 export const deleteRentalSpace = async (req, res) => {
     try {
         const vendor = await prisma.vendorProfile.findUnique({
