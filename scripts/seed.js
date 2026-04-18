@@ -5,9 +5,10 @@ import bcrypt from 'bcrypt'
 const prisma = new PrismaClient()
 
 async function main() {
-    console.log(' Seeding started...')
+    console.log('🌱 Seeding started...')
 
-
+    // Clean existing data - ORDER MATTERS (children before parents)
+    await prisma.plantTracking.deleteMany()
     await prisma.sustainabilityCert.deleteMany()
     await prisma.communityPost.deleteMany()
     await prisma.order.deleteMany()
@@ -16,8 +17,9 @@ async function main() {
     await prisma.vendorProfile.deleteMany()
     await prisma.user.deleteMany()
 
-    console.log(' Cleaned existing data')
+    console.log('🗑️  Cleaned existing data')
 
+    // ─── 1. Create Admin ───────────────────────────────────────────
     const adminPassword = await bcrypt.hash('admin123', 10)
     const admin = await prisma.user.create({
         data: {
@@ -28,8 +30,9 @@ async function main() {
             status: 'active'
         }
     })
-    console.log('Admin created:', admin.email)
+    console.log('✅ Admin created:', admin.email)
 
+    // ─── 2. Create 10 Vendors ──────────────────────────────────────
     const vendorUsers = []
     for (let i = 0; i < 10; i++) {
         const password = await bcrypt.hash('vendor123', 10)
@@ -44,8 +47,9 @@ async function main() {
         })
         vendorUsers.push(user)
     }
-    console.log('10 Vendor users created')
+    console.log('✅ 10 Vendor users created')
 
+    // ─── 3. Create Vendor Profiles ─────────────────────────────────
     const vendorProfiles = []
     for (const user of vendorUsers) {
         const profile = await prisma.vendorProfile.create({
@@ -60,8 +64,9 @@ async function main() {
         })
         vendorProfiles.push(profile)
     }
-    console.log(' 10 Vendor profiles created')
+    console.log('✅ 10 Vendor profiles created')
 
+    // ─── 4. Create 100 Produce items ──────────────────────────────
     const categories = ['Vegetables', 'Fruits', 'Herbs', 'Seeds', 'Tools']
     const produceNames = [
         'Tomatoes', 'Spinach', 'Carrots', 'Lettuce', 'Peppers',
@@ -86,8 +91,9 @@ async function main() {
             }
         })
     }
-    console.log(' 100 Produce items created')
+    console.log('✅ 100 Produce items created')
 
+    // ─── 5. Create 5 Customers ────────────────────────────────────
     const customers = []
     for (let i = 0; i < 5; i++) {
         const password = await bcrypt.hash('customer123', 10)
@@ -102,8 +108,9 @@ async function main() {
         })
         customers.push(user)
     }
-    console.log(' 5 Customer users created')
+    console.log('✅ 5 Customer users created')
 
+    // ─── 6. Create Community Posts ────────────────────────────────
     const allUsers = [...vendorUsers, ...customers]
     for (let i = 0; i < 20; i++) {
         const user = faker.helpers.arrayElement(allUsers)
@@ -114,8 +121,9 @@ async function main() {
             }
         })
     }
-    console.log(' 20 Community posts created')
+    console.log('✅ 20 Community posts created')
 
+    // ─── 7. Create Rental Spaces ──────────────────────────────────
     for (const vendor of vendorProfiles) {
         await prisma.rentalSpace.create({
             data: {
@@ -129,8 +137,9 @@ async function main() {
             }
         })
     }
-    console.log(' Rental spaces created')
+    console.log('✅ 10 Rental spaces created')
 
+    // ─── 8. Create Sustainability Certs ───────────────────────────
     for (const vendor of vendorProfiles) {
         await prisma.sustainabilityCert.create({
             data: {
@@ -145,9 +154,29 @@ async function main() {
             }
         })
     }
-    console.log(' Sustainability certs created')
+    console.log('✅ 10 Sustainability certs created')
 
-    console.log('\n Seeding completed successfully!')
+    // ─── 9. Create Plant Tracking entries ─────────────────────────
+    const growthStages = ['SEEDLING', 'VEGETATIVE', 'FLOWERING', 'FRUITING', 'HARVEST']
+    const healthStatuses = ['HEALTHY', 'DISEASED', 'PEST_AFFECTED', 'WILTING', 'DEAD']
+    const plantNames = ['Tomato', 'Spinach', 'Basil', 'Carrot', 'Pepper', 'Cucumber', 'Mint', 'Lettuce']
+
+    for (let i = 0; i < 10; i++) {
+        const customer = faker.helpers.arrayElement(customers)
+        await prisma.plantTracking.create({
+            data: {
+                userId: customer.id,
+                plantName: faker.helpers.arrayElement(plantNames),
+                growthStage: faker.helpers.arrayElement(growthStages),
+                healthStatus: faker.helpers.arrayElement(healthStatuses),
+                notes: faker.lorem.sentence(),
+                harvestDate: faker.date.future()
+            }
+        })
+    }
+    console.log('✅ 10 Plant tracking entries created')
+
+    console.log('\n🎉 Seeding completed successfully!')
     console.log('─────────────────────────────────')
     console.log('Admin login:    admin@urbanfarming.com / admin123')
     console.log('Vendor login:   (check DB for emails) / vendor123')
@@ -156,7 +185,7 @@ async function main() {
 
 main()
     .catch((e) => {
-        console.error(' Seeding failed:', e)
+        console.error('❌ Seeding failed:', e)
         process.exit(1)
     })
     .finally(async () => {
